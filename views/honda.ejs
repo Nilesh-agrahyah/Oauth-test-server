@@ -132,7 +132,7 @@
                       var number = "<%= number %>";
                       var settings = {
                         url:
-                          "https://169.38.98.215:7143/bos/customer/verifyPrimaryContactNo",
+                          "https://testapi.hondaconnect.in/bos/customer/verifyPrimaryContactNo",
                         method: "POST",
                         timeout: 0,
                         headers: {
@@ -147,7 +147,7 @@
                       $.ajax(settings).done(function(response) {
                         // console.log(response);
                         var settings = {
-                          url: "https://alexa-oauth.herokuapp.com/resendOtp",
+                          url: "https://oauthserver2.herokuapp.com/resendOtp",
                           method: "POST",
                           timeout: 0,
                           headers: {
