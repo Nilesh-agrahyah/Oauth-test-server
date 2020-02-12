@@ -344,7 +344,6 @@ app.post("/honda/primary", (req, res) => {
             console.log(response.body);
           });
         }
-
         res.render("honda", {
           fail: undefined,
           otpSent: undefined,
