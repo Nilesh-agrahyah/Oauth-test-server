@@ -301,7 +301,7 @@ app.post("/honda/primary", (req, res) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          key: data.resKey,
+          key: resKey,
           otp: sentOpt,
           emailId: "",
           primaryMobileNo: data.phoneNo,
