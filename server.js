@@ -316,7 +316,8 @@ app.post("/honda/primary", (req, res) => {
         let custEmail = resData.data.loginInfo.emailId;
         let optStat = resData.data.otpStatus;
         console.log("data" + JSON.stringify(data))
-        if (data.optStat == "False") {
+        console.log("Res data: ", resData);
+        if (optStat == "False") {
           return res.render("honda", {
             fail: false,
             otpSent: true,
