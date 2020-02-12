@@ -262,7 +262,7 @@ app.post("/honda/primary", (req, res) => {
       // let num = req.body.primaryMobileNo;
       data.resOtp = resentOtp;
       console.log("Resent OTP: ", data.resOtp);
-      data.resKey = resentKey;
+      resKey = resentKey;
       console.log("Resent New Key: ", data.resKey);
       res.send({status:200});
     })
@@ -308,6 +308,7 @@ app.post("/honda/primary", (req, res) => {
           customerId: "",
           customerCategory: ""
         })
+
       };
       console.log("options in verifyotp: " +JSON.stringify(options))
       request(options, async function(error, response) {
