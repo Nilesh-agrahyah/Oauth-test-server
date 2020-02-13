@@ -350,6 +350,8 @@ app.post("/honda/primary", (primaryreq, res) => {
             console.log(response.body);
           });
         }
+
+        console.log("value of number for mpin page " +  resData.data.primaryMobileNo)
         res.render("honda", {
           fail: undefined,
           otpSent: undefined,
@@ -360,6 +362,8 @@ app.post("/honda/primary", (primaryreq, res) => {
 
         app.post("/honda/verifyMpin", (req, res) => {
           let submittedMpin = req.body.mpin;
+
+          console.log("value of number in mpin page " +  req.body.number)
           /*var  options = {
             method: "POST",
             url: `${baseURL}/authentication/loginApi`,
