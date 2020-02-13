@@ -293,6 +293,7 @@ app.post("/honda/primary", (primaryreq, res) => {
       otpVerified: undefined
     });
     app.post("/honda/verifyOtp", (req, res) => {
+      console.log("value of req in verify otp : " + req)
       let sentOpt = req.body.otp;
       var options = {
         method: "POST",
@@ -304,7 +305,7 @@ app.post("/honda/primary", (primaryreq, res) => {
           key: resKey,
           otp: sentOpt,
           emailId: "",
-          primaryMobileNo: primaryreq.body.primaryMobileNo,
+          primaryMobileNo: req.body.number,
           customerId: "",
           customerCategory: ""
         })
