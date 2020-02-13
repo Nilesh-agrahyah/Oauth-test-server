@@ -484,6 +484,7 @@ app.get("/honda/primary", (req, res) => {
 app.get(
   "/auth/start",
   oauthServer.authorize(function(applicationID, redirectURI, done) {
+    console.log("applicationID " + applicationID)
     oauthModels.Application.findOne({ oauth_id: applicationID }, async function(
       error,
       application

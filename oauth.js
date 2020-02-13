@@ -182,7 +182,7 @@ server.exchange(
         console.log("refresh token found");
         if (refresh && refresh.application == application.id) {
           console.log("refresh token matches application");
-          OAuth.GrantCode.findOne({user : refresh.user}, async function(error, grant) {
+          OAuth.GrantCode.findOne({}, async function(error, grant) {
             console.log(
               "refresh token matches application, user and grant code found"
             );
