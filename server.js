@@ -295,6 +295,7 @@ app.post("/honda/primary", (primaryreq, res) => {
     app.post("/honda/verifyOtp", (req, res) => {
       console.log("value of req in verify otp : " + req)
       let sentOpt = req.body.otp;
+      let numberInOTP = req.body.number
       var options = {
         method: "POST",
         url: `${baseURL}/external/alexaVerifyOtpPin`,
@@ -329,7 +330,7 @@ app.post("/honda/primary", (primaryreq, res) => {
           return res.render("honda", {
             fail: false,
             otpSent: true,
-            number: data.phoneNo,
+            number:numberInOTP,
             otpVerified: false
           });
         }
@@ -353,11 +354,11 @@ app.post("/honda/primary", (primaryreq, res) => {
           });
         }
 
-        console.log("value of number for mpin page " +  data.phoneNo)
+        console.log("value of number for mpin page " +  numberInOTP)
         res.render("honda", {
           fail: undefined,
           otpSent: undefined,
-          number: data.phoneNo,
+          number:numberInOTP,
           otpVerified: true,
           mpinVerified: undefined
         });
