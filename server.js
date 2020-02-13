@@ -322,6 +322,8 @@ app.post("/honda/primary", (primaryreq, res) => {
         let custName = resData.data.loginInfo.firstname;
         let custEmail = resData.data.loginInfo.emailId;
         let optStat = resData.data.otpStatus;
+
+        console.log("cust email from res data: " + custEmail);
         console.log("data" + JSON.stringify(data))
         console.log("Res data: ", resData);
        data.phoneNo = resData.data.primaryMobileNo
@@ -395,6 +397,7 @@ app.post("/honda/primary", (primaryreq, res) => {
             if (responseS.status.status == true) {
               let checkIfData = await account.findOne({ email: custEmail });
               console.log("value of checkIfData" + checkIfData);
+
               if (!checkIfData.data) {
                 await account.findOneAndUpdate(
                   { email: custEmail },
