@@ -324,7 +324,7 @@ app.post("/honda/primary", (req, res) => {
           return res.render("honda", {
             fail: false,
             otpSent: true,
-            number: data.phoneNo,
+            number: resData.data.primaryMobileNo,
             otpVerified: false
           });
         }
@@ -350,7 +350,7 @@ app.post("/honda/primary", (req, res) => {
         res.render("honda", {
           fail: undefined,
           otpSent: undefined,
-          number: data.phoneNo,
+          number: resData.data.primaryMobileNo,
           otpVerified: true,
           mpinVerified: undefined
         });
@@ -374,7 +374,7 @@ app.post("/honda/primary", (req, res) => {
             'headers': {
             'mpin': submittedMpin,
             'Content-Type': 'application/json',
-            'primaryMobileNo': data.phoneNo
+            'primaryMobileNo': resData.data.primaryMobileNo
             }
             };  
             console.log("Options: ", options);
