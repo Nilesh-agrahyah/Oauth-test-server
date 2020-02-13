@@ -315,6 +315,7 @@ app.post("/honda/primary", (primaryreq, res) => {
       request(options, async function(error, response) {
         if (error) throw new Error(error);
         let resData = JSON.parse(response.body);
+        console.log("res data " + resData)
         let custId = resData.data.loginInfo.customerId;
         let custName = resData.data.loginInfo.firstname;
         let custEmail = resData.data.loginInfo.emailId;
