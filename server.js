@@ -368,7 +368,7 @@ app.post("/honda/primary", (req, res) => {
             },
             body: JSON.stringify({ emailId: "", primaryMobileNo: data.phoneNo })
           }; */
-          var options = {
+          var options = { 
             'method': 'GET',
             'url': `${baseURL}/external/login`,
             'headers': {
