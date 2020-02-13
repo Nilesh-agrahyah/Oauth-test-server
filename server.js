@@ -267,9 +267,9 @@ app.post("/honda/primary", (req, res) => {
       res.send({status:200});
     })
 
-    let resOtp = Phoneresponse.body.data.generatedOtp;
+    let resOtp =JSON.parse(Phoneresponse.body).data.generatedOtp;
     console.log("OTP: ", resOtp);
-    let resKey =  Phoneresponse.body.data.key;
+    let resKey =  JSON.parse(Phoneresponse.body).data.key;
     console.log('res key', resKey)
     resKey = resKey
     if (responseS.data.mpinStatus == false) {
