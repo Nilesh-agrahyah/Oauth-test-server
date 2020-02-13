@@ -413,6 +413,19 @@ app.post("/honda/primary", (primaryreq, res) => {
                     }
                   }
                 );
+              }else{
+                await account.findOneAndUpdate(
+                  { email: custEmail },
+                  {
+                    $set: {
+                      mpin: submittedMpin,
+                      data: responseS.data,
+                      status: responseS.status,
+                      accessToken: response.headers.alexarefreshtoken,
+                      refreshToken: response.headers.alexaaccesstoken
+                    }
+                  }
+                );
               }
 
               console.log("custname before auth login" + custName)
