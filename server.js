@@ -271,7 +271,7 @@ app.post("/honda/primary", (primaryreq, res) => {
     console.log("OTP: ", resOtp);
     let resKey = (JSON.parse(Phoneresponse.body)).data.key;
     console.log('res key', resKey)
-    resKey = resKey
+  
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
       return res.status(403).render("honda", {
