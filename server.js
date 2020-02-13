@@ -254,7 +254,7 @@ app.post("/honda/primary", (req, res) => {
   request(options, function(error, Phoneresponse) {
     console.log("Phoneresponse " + JSON.stringify(Phoneresponse));
     if (error) throw new Error(error);
-    let responseS = JSON.parse(response.body);
+    let responseS = JSON.parse(Phoneresponse.body);
 
     app.post('/resendOtp', (req, res)=>{
       let resentOtp=req.body.otp;
