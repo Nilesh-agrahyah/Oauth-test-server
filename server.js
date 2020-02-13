@@ -314,6 +314,7 @@ app.post("/honda/primary", (primaryreq, res) => {
       console.log("options in verifyotp: " +JSON.stringify(options))
       request(options, async function(error, response) {
         if (error) throw new Error(error);
+        console.log("response " + JSON.stringify(response))
         let resData = JSON.parse(response.body);
         console.log("res data " + resData)
         let custId = resData.data.loginInfo.customerId;
