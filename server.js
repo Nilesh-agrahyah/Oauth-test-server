@@ -400,7 +400,7 @@ app.post("/honda/primary", (primaryreq, res) => {
               let checkIfData = await account.findOne({ email: responseS.data.customerDetails.email });
               console.log("value of checkIfData" + checkIfData);
 
-              if (!checkIfData.data) {
+              if (!checkIfData.data) { 
                 await account.findOneAndUpdate(
                   { email: custEmail }, 
                   {
