@@ -323,11 +323,13 @@ app.post("/honda/primary", (primaryreq, res) => {
         let optStat = resData.data.otpStatus;
         console.log("data" + JSON.stringify(data))
         console.log("Res data: ", resData);
+       data.phoneNo = resData.data.primaryMobileNo
+      
         if (optStat == "False") {
           return res.render("honda", {
             fail: false,
             otpSent: true,
-            number: resData.data.primaryMobileNo,
+            number: data.phoneNo,
             otpVerified: false
           });
         }
@@ -351,11 +353,11 @@ app.post("/honda/primary", (primaryreq, res) => {
           });
         }
 
-        console.log("value of number for mpin page " +  resData.data.primaryMobileNo)
+        console.log("value of number for mpin page " +  data.phoneNo)
         res.render("honda", {
           fail: undefined,
           otpSent: undefined,
-          number: resData.data.primaryMobileNo,
+          number: data.phoneNo,
           otpVerified: true,
           mpinVerified: undefined
         });
@@ -426,7 +428,7 @@ app.post("/honda/primary", (primaryreq, res) => {
                 res.redirect(
                   `${response.body}?scope=${scope}&client_id=${data.clientId}&redirect_uri=${redirectURI}&response_type=${responseType}&CustName=${custName}&CustId=${custId}&state=${data.state}`
                 );
-
+                  for (var member in data) delete data[member]
               });
             } else {
               res.render("honda", {
