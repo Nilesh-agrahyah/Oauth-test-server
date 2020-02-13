@@ -415,6 +415,8 @@ app.post("/honda/primary", (primaryreq, res) => {
                 );
               }
 
+              console.log("val of email for auth login real " +  responseS.data.customerDetails.email)
+              console.log("val of custid for auth login real " +  responseS.data.customerDetails.customerId)
               var options = {
                 method: "POST",
                 url: `https://oauthserver2.herokuapp.com/login`,
@@ -422,8 +424,8 @@ app.post("/honda/primary", (primaryreq, res) => {
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
                 form: {
-                  username: custName,
-                  password: custId
+                  username: responseS.data.customerDetails.email,
+                  password: responseS.data.customerDetails.customerId
                 }
               };
               request(options, function(error, response, body) {
