@@ -229,15 +229,15 @@ class bufferData{
   }
 } 
 
-app.post("/honda/primary", (req, res) => {
+app.post("/honda/primary", (primaryreq, res) => {
   let data = new bufferData(undefined, undefined, undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined, undefined, undefined);
   // console.log(req)
-   data.clientId = req.body.clientId;
-  var scope = req.body.scope;
-  var responseType = req.body.responseType;
-  var redirectURI = req.body.redirectURI;
-  data.state = req.body.state;
-  let phoneNo = req.body.primaryMobileNo;
+   data.clientId = primaryreq.body.clientId;
+  var scope = primaryreq.body.scope;
+  var responseType = primaryreq.body.responseType;
+  var redirectURI = primaryreq.body.redirectURI;
+  data.state = primaryreq.body.state;
+  let phoneNo = primaryreq.body.primaryMobileNo;
   console.log([data.clientId, scope, responseType, redirectURI, data.state]);
 
 
@@ -248,7 +248,7 @@ app.post("/honda/primary", (req, res) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ primaryMobileNo: phoneNo, emailId: "" })
+    body: JSON.stringify({ primaryMobileNo: primaryreq.body.primaryMobileNo, emailId: "" })
   };
   console.log("Options " + JSON.stringify(options));
   request(options, function(error, Phoneresponse) {
@@ -277,7 +277,7 @@ app.post("/honda/primary", (req, res) => {
       return res.status(403).render("honda", {
         fail: true,
         otpSent: false, 
-        number: phoneNo,
+        number: primaryreq.body.primaryMobileNo,
         otpVerified: undefined,
         clientId: data.clientId,
         scope: scope,
@@ -289,7 +289,7 @@ app.post("/honda/primary", (req, res) => {
     res.render("honda", {
       fail: false,
       otpSent: true,
-      number: phoneNo,
+      number: primaryreq.body.primaryMobileNo,
       otpVerified: undefined
     });
     app.post("/honda/verifyOtp", (req, res) => {
@@ -304,7 +304,7 @@ app.post("/honda/primary", (req, res) => {
           key: resKey,
           otp: sentOpt,
           emailId: "",
-          primaryMobileNo: phoneNo,
+          primaryMobileNo: primaryreq.body.primaryMobileNo,
           customerId: "",
           customerCategory: ""
         })
