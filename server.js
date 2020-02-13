@@ -237,7 +237,7 @@ app.post("/honda/primary", (req, res) => {
   var responseType = req.body.responseType;
   var redirectURI = req.body.redirectURI;
   data.state = req.body.state;
-  data.phoneNo = req.body.primaryMobileNo;
+  let phoneNo = req.body.primaryMobileNo;
   console.log([data.clientId, scope, responseType, redirectURI, data.state]);
 
 
@@ -248,11 +248,11 @@ app.post("/honda/primary", (req, res) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ primaryMobileNo: data.phoneNo, emailId: "" })
+    body: JSON.stringify({ primaryMobileNo: phoneNo, emailId: "" })
   };
   console.log("Options " + JSON.stringify(options));
-  request(options, function(error, response) {
-    console.log("Response " + JSON.stringify(response));
+  request(options, function(error, Phoneresponse) {
+    console.log("Phoneresponse " + JSON.stringify(Phoneresponse));
     if (error) throw new Error(error);
     let responseS = JSON.parse(response.body);
 
@@ -267,17 +267,17 @@ app.post("/honda/primary", (req, res) => {
       res.send({status:200});
     })
 
-    let resOtp = responseS.data.generatedOtp;
+    let resOtp = Phoneresponse.body.data.generatedOtp;
     console.log("OTP: ", resOtp);
-    let resKey = responseS.data.key;
+    let resKey =  Phoneresponse.body.data.key;
     console.log('res key', resKey)
-    data.resKey = resKey
+    resKey = resKey
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
       return res.status(403).render("honda", {
         fail: true,
         otpSent: false, 
-        number: data.phoneNo,
+        number: phoneNo,
         otpVerified: undefined,
         clientId: data.clientId,
         scope: scope,
@@ -289,7 +289,7 @@ app.post("/honda/primary", (req, res) => {
     res.render("honda", {
       fail: false,
       otpSent: true,
-      number: data.phoneNo,
+      number: phoneNo,
       otpVerified: undefined
     });
     app.post("/honda/verifyOtp", (req, res) => {
@@ -304,7 +304,7 @@ app.post("/honda/primary", (req, res) => {
           key: resKey,
           otp: sentOpt,
           emailId: "",
-          primaryMobileNo: data.phoneNo,
+          primaryMobileNo: phoneNo,
           customerId: "",
           customerCategory: ""
         })
