@@ -374,7 +374,7 @@ app.post("/honda/primary", (req, res) => {
             'headers': {
             'mpin': submittedMpin,
             'Content-Type': 'application/json',
-            'primaryMobileNo': resData.data.primaryMobileNo
+            'primaryMobileNo': phoneNo
             }
             };  
             console.log("Options: ", options);
