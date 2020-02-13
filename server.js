@@ -428,6 +428,7 @@ app.post("/honda/primary", (primaryreq, res) => {
                   password: responseS.data.customerDetails.customerId
                 }
               };
+              console.log("options in login for auth" + JSON.stringify(options))
               request(options, function(error, response, body) {
                 if (error) throw new Error(error);
                 console.log(
