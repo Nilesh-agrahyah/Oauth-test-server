@@ -66,6 +66,9 @@ mongoose_connection.on("disconnected", function() {
 
 mongoose.connect(mongo_url, mongoose_options);
 
+mongoose.set('useFindAndModify', false);
+
+
 var Account = require("./models/account");
 var oauthModels = require("./models/oauth");
 var app_id = "https://oauthserver2.herokuapp.com/:" + port; //Change according to host used
