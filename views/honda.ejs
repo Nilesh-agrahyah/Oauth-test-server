@@ -18,6 +18,16 @@
     />
     <title>Honda Login</title>
     <style>
+      #hondaNum {
+        border: none;
+        background-color: transparent;
+        outline: none;
+        font-size: 25px;
+        color: #ffffff;
+        width: 300px;
+        height: 30px;
+        caret-color: #cc0000;
+      }
       body {
         background-image: radial-gradient(#3e3e3e, #151515);
         font-family: "Roboto";
@@ -27,6 +37,34 @@
       }
       .btn {
         background-color: #cc0000;
+        width:100px;
+        padding:5px;
+      }
+      #partitioned {
+        padding-left: 15px;
+        letter-spacing: 42px;
+        border: 0;
+        background-color: transparent;
+        background-image: linear-gradient(to left, #ffffff 70%, rgba(255, 255, 255, 0) 0%);
+        background-position: bottom;
+        background-size: 50px 1px;
+        background-repeat: repeat-x;
+        background-position-x: 35px;
+        width: 220px;
+        min-width: 220px;
+        caret-color: #cc0000;
+        color:#ffffff;
+        outline: none;
+      }
+
+      #divInner{
+        left: 0;
+        position: sticky;
+      }
+
+      #divOuter{
+        width: 190px; 
+        overflow: hidden;
       }
     </style>
   </head>
@@ -57,18 +95,18 @@
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div
-            class="card text-center"
+            class="card"
             style="background-color:transparent; border: 0px;"
           >
             <div class="card-body" style="background-color: transparent;">
               <% if(otpSent == false){ %>
               <form method="POST" action="/honda/primary">
-                <p style="font-size: 16px;">Enter your mobile number</p>
-                <p style="color: #B1B1B1;">A 4-digit OTP will be sent on SMS</p>
+                <p style="font-size: 16px;">Getting Started</p>
+                <p style="color: #B1B1B1;">Login via mobile number</p>
                 <input
                   type="number"
                   name="primaryMobileNo"
-                  placeholder="Mobile Number"
+                  placeholder="9999999999"
                   maxlength="10"
                   required
                   class="form-control"
@@ -87,9 +125,9 @@
                 />
                 <input type="hidden" name="state" value="<%= state %>" /><br />
                 <input
-                  class="btn btn-danger btn-block"
+                  class="btn btn-sm btn-danger"
                   type="submit"
-                  value="Submit"
+                  value="Next"
                 />
                 <% if(fail == true){ %>
                 <p class="alert alert-dark">
@@ -100,30 +138,63 @@
               </form>
               <% } %> <% if(otpSent == true){ %>
               <form method="POST" , action="/honda/verifyOtp">
-                <p style="font-size: 16px;">Verify and log in</p>
+                <p style="font-size: 16px;">Getting Started</p>
                 <p style="color: #B1B1B1;">
-                  Enter the OTP sent to your mobile <%= number %>
+                  OTP sent to <%= number %>
                 </p>
-                <label>Enter OTP</label>&nbsp;
-                <input
+                <div id="divOuter">
+                  <div id="divInner">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+                      var obj = document.getElementById('partitioned');
+                      obj.addEventListener('keydown', stopCarret); 
+                      obj.addEventListener('keyup', stopCarret); 
+
+                      function stopCarret() {
+                        if (obj.value.length > 3){
+                          setCaretPosition(obj, 3);
+                        }
+                      }
+
+                      function setCaretPosition(elem, caretPos) {
+                          if(elem != null) {
+                              if(elem.createTextRange) {
+                                  var range = elem.createTextRange();
+                                  range.move('character', caretPos);
+                                  range.select();
+                              }
+                              else {
+                                  if(elem.selectionStart) {
+                                      elem.focus();
+                                      elem.setSelectionRange(caretPos, caretPos);
+                                  }
+                                  else
+                                      elem.focus();
+                              }
+                          }
+                      }
+                    </script>
+                    <input id="partitioned" type="number" maxlength="4" name="otp" required/>
+                  </div>
+                </div>
+                <!-- <input
                   type="number"
                   name="otp"
                   placeholder="OTP"
                   maxlength="4"
                   required
                   class="form-control"
-                />
+                /> -->
                 <input type="hidden" value="<%= number %>" name="number"/>
                 <br />
                 <input
-                  class="btn btn-danger btn-block"
+                  class="btn btn-sm btn-danger"
                   type="submit"
-                  value="Verify"
+                  value="Next"
                 />
                 <input
-                  class="btn btn-danger btn-block"
+                  class="btn btn-default"
                   id="resend"
-                  style="border:0px; background-color: transparent; color: #B5965E;"
+                  style="border:0px; background-color: transparent; color: #B5965E; float: right;"
                   type="button"
                   value="Resend OTP"
                 />
@@ -176,18 +247,44 @@
               <form method="POST" , action="/honda/verifyMpin">
                 <p style="font-size: 16px;">OTP verified!</p>
                 <label style="color: #B1B1B1;">Enter your mPIN</label>&nbsp;
-                <input
-                  type="number"
-                  name="mpin"
-                  placeholder="mPIN"
-                  maxlength="4"
-                  required
-                  class="form-control"
-                />
+                <div id="divOuter">
+                  <div id="divInner">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+                      var obj = document.getElementById('partitioned');
+                      obj.addEventListener('keydown', stopCarret); 
+                      obj.addEventListener('keyup', stopCarret); 
+
+                      function stopCarret() {
+                        if (obj.value.length > 3){
+                          setCaretPosition(obj, 3);
+                        }
+                      }
+
+                      function setCaretPosition(elem, caretPos) {
+                          if(elem != null) {
+                              if(elem.createTextRange) {
+                                  var range = elem.createTextRange();
+                                  range.move('character', caretPos);
+                                  range.select();
+                              }
+                              else {
+                                  if(elem.selectionStart) {
+                                      elem.focus();
+                                      elem.setSelectionRange(caretPos, caretPos);
+                                  }
+                                  else
+                                      elem.focus();
+                              }
+                          }
+                      }
+                    </script>
+                    <input id="partitioned" type="number" maxlength="4" name="mpin" required/>
+                  </div>
+                </div>
                 <input type="hidden" value="<%= number %>" name="number"/>
                 <br />
                 <input
-                  class="btn btn-danger btn-block"
+                  class="btn btn-danger btn-sm"
                   type="submit"
                   value="Login"
                 />
