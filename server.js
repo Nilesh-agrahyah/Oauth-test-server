@@ -409,7 +409,7 @@ app.post("/honda/primary", (primaryreq, res) => {
 
               if (!checkIfData.data) {  
                 await account.findOneAndUpdate( 
-                  { email: custEmail },  
+                  { email: responseS.data.customerDetails.email },  
                   {
                     $set: {
                       mpin: submittedMpin,
@@ -422,7 +422,7 @@ app.post("/honda/primary", (primaryreq, res) => {
                 );
               }else{
                 await account.findOneAndUpdate(
-                  { email: custEmail },
+                  { email: responseS.data.customerDetails.email },
                   {
                     $set: {
                       mpin: submittedMpin, 
