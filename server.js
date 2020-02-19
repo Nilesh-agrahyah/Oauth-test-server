@@ -251,7 +251,7 @@ app.post("/honda/primary", (primaryreq, res) => {
     url: `${baseURL}/external/alexaVerifyPrimaryContactNo`,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": key
+      "Authorization": key 
     },
     body: JSON.stringify({ primaryMobileNo: primaryreq.body.primaryMobileNo, emailId: "" })
   };
