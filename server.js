@@ -288,7 +288,7 @@ app.post("/honda/primary", (primaryreq, res) => {
         scope: scope,
         redirectURI: redirectURI,
         responseType: responseType,
-        state: state
+        state: data.state
       });
     }
     res.render("honda", {
