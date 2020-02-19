@@ -232,9 +232,9 @@ class bufferData{
     this.state = state
   }
 } 
+let data = new bufferData(undefined, undefined, undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined, undefined, undefined);
 
 app.post("/honda/primary", (primaryreq, res) => {
-  let data = new bufferData(undefined, undefined, undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined, undefined, undefined);
   // console.log(req)
    data.clientId = primaryreq.body.clientId;
   var scope = primaryreq.body.scope;
