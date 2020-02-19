@@ -19,6 +19,7 @@ const request = require("request");
 var oauthServer = require("./oauth");
 const account = require("./models/account");
 const baseURL = "https://testapi.hondaconnect.in/bos";
+const key = require("./config/key");
 
 var port = process.env.VCAP_APP_PORT || process.env.PORT || 3000;
 var host = process.env.VCAP_APP_HOST || "0.0.0.0";
@@ -249,7 +250,8 @@ app.post("/honda/primary", (primaryreq, res) => {
     method: "POST",
     url: `${baseURL}/external/alexaVerifyPrimaryContactNo`,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": key
     },
     body: JSON.stringify({ primaryMobileNo: primaryreq.body.primaryMobileNo, emailId: "" })
   };
@@ -303,7 +305,8 @@ app.post("/honda/primary", (primaryreq, res) => {
         method: "POST",
         url: `${baseURL}/external/alexaVerifyOtpPin`,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": key
         },
         body: JSON.stringify({
           key: resKey,
@@ -389,7 +392,8 @@ app.post("/honda/primary", (primaryreq, res) => {
             'headers': {
             'mpin': submittedMpin,
             'Content-Type': 'application/json',
-            'primaryMobileNo':  req.body.number
+            'primaryMobileNo':  req.body.number,
+            "Authorization": key
             }
             };  
             console.log("Options: ", options);
