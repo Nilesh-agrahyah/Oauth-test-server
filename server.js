@@ -454,7 +454,7 @@ app.post("/honda/primary", (primaryreq, res) => {
                   "value of login response after post" + JSON.stringify(body)
                 );
                 res.redirect(
-                  `${response.body}?scope=${scope}&client_id=${data.clientId}&redirect_uri=${redirectURI}&response_type=${responseType}&CustName=${custName}&CustId=${custId}&state=${data.state}`
+                  `${response.body}?scope=${scope}&client_id=${data.clientId}&redirect_uri=${redirectURI}&response_type=${responseType}&CustName=${responseS.data.customerDetails.firstname}&CustId=${responseS.data.customerDetails.customerId}&state=${data.state}`
                 );
                   for (var member in data) delete data[member]
               });
