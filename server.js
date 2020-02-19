@@ -267,15 +267,15 @@ app.post("/honda/primary", (primaryreq, res) => {
       // let num = req.body.primaryMobileNo;
       data.resOtp = resentOtp;
       console.log("Resent OTP: ", data.resOtp);
-      resKey = resentKey;
+      data.resKey = resentKey;
       console.log("Resent New Key: ", data.resKey);
       res.send({status:200});
     })
 
     let resOtp =(JSON.parse(Phoneresponse.body)).data.generatedOtp;
     console.log("OTP: ", resOtp);
-    let resKey = (JSON.parse(Phoneresponse.body)).data.key;
-    console.log('res key', resKey)
+    data.resKey = (JSON.parse(Phoneresponse.body)).data.key;
+    console.log('res key', data.resKey)
   
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
@@ -309,7 +309,7 @@ app.post("/honda/primary", (primaryreq, res) => {
           "Authorization": key
         },
         body: JSON.stringify({
-          key: resKey,
+          key: data.resKey,
           otp: sentOpt,
           emailId: "",
           primaryMobileNo: req.body.number,
