@@ -435,8 +435,8 @@ app.post("/honda/primary", (primaryreq, res) => {
                 );
               }
 
-              console.log("custname before auth login" + custName)
-              console.log("custId before auth login" + custId)
+              console.log("custname before auth login: " + responseS.data.customerDetails.firstname)
+              console.log("custId before auth login: " + responseS.data.customerDetails.customerId)
               var options = {
                 method: "POST",
                 url: `https://oauthserver2.herokuapp.com/login`,
@@ -444,8 +444,8 @@ app.post("/honda/primary", (primaryreq, res) => {
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
                 form: {
-                  username: custName,
-                  password: custId
+                  username: responseS.data.customerDetails.firstname,
+                  password: responseS.data.customerDetails.customerId
                 }
               };
               request(options, function(error, response, body) {
