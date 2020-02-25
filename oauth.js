@@ -209,35 +209,38 @@ server.exchange(
                   console.log("error in getting new token from honda " + error);
                   throw new Error(error);
                 } else {
-                  console.log(
-                    "got response from honda fr refresh " +
-                      JSON.stringify(response)
-                  );
-                  var newToken = new OAuth.AccessToken({
-                    token: response.headers.alexarefreshtoken,
-                    application: refresh.application,
-                    user: refresh.user,
-                    grant: grant,
-                    scope: grant.scope
-                  });
-                  console.log("saving new token");
-                  newToken.save(function(error) {
-                    var expires = Math.round(
-                      (newToken.expires - new Date().getTime()) / 1000
+                  if(response.body.status.status == true){
+                    console.log(
+                      "got response from honda fr refresh " +
+                        JSON.stringify(response)
                     );
-                    console.log("expires " + expires);
-                    if (!error) {
-                      console.log("token saved");
-                      done(null, newToken.token, refresh.token, {
-                        token_type: "Bearer",
-                        expires_in: expires,
-                        scope: newToken.scope
-                      });
-                    } else {
-                      console.log("token saving error " + error);
-                      done(error, false);
-                    }
-                  });
+                    var newToken = new OAuth.AccessToken({
+                      token: response.headers.alexarefreshtoken,
+                      application: refresh.application,
+                      user: refresh.user,
+                      grant: grant,
+                      scope: grant.scope
+                    });
+                    console.log("saving new token");
+                    newToken.save(function(error) {
+                      var expires = Math.round(
+                        (newToken.expires - new Date().getTime()) / 1000
+                      );
+                      console.log("expires " + expires);
+                      if (!error) {
+                        console.log("token saved");
+                        done(null, newToken.token, refresh.token, {
+                          token_type: "Bearer",
+                          expires_in: expires,
+                          scope: newToken.scope
+                        });
+                      } else {
+                        console.log("token saving error " + error);
+                        done(error, false);
+                      }
+                    });
+                  }
+                  
                 }
               });
             } else {
