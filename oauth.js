@@ -213,7 +213,7 @@ server.exchange(
                     "got response from honda fr refresh " +
                       JSON.stringify(response)
                   );
-                  if(response.body.status.status == true){
+                  if(response.statusCode == 200){
                     
                     var newToken = new OAuth.AccessToken({
                       token: response.headers.alexarefreshtoken,
