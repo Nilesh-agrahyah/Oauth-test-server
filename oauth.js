@@ -209,11 +209,12 @@ server.exchange(
                   console.log("error in getting new token from honda " + error);
                   throw new Error(error);
                 } else {
+                  console.log(
+                    "got response from honda fr refresh " +
+                      JSON.stringify(response)
+                  );
                   if(response.body.status.status == true){
-                    console.log(
-                      "got response from honda fr refresh " +
-                        JSON.stringify(response)
-                    );
+                    
                     var newToken = new OAuth.AccessToken({
                       token: response.headers.alexarefreshtoken,
                       application: refresh.application,
