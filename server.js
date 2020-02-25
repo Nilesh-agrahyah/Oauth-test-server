@@ -578,7 +578,7 @@ app.post(
         },
         function(error, user, info) {
           console.log("/auth/finish authenting");
-          if (user) {
+          if (user) { 
             console.log(user.username);
             req.user = user;
             next();
