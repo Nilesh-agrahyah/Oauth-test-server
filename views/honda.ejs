@@ -107,7 +107,7 @@ svg {
   stroke-width: 2px;
   stroke: red;
   fill: none;
-  animation: countdown1 90 linear forwards;
+  animation: countdown1 90s linear forwards;
 }
 
 .circleAni2 {
@@ -208,7 +208,7 @@ svg {
                 <% } %>
               </form>
               <% } %> <% if(otpSent == true){ %>
-              <form method="POST" , action="/honda/verifyOtp">
+              <form method="POST" , action="/honda/verifyOtp" autocomplete="off">
                 <p style="font-size: 20px;">Getting Started</p>
                 <p style="color: #B1B1B1;">
                   OTP sent to <%= number %>
@@ -353,7 +353,7 @@ svg {
               </form>
 
               <% } %> <% if(otpVerified == true){ %>
-              <form method="POST" , action="/honda/verifyMpin">
+              <form method="POST" , action="/honda/verifyMpin" autocomplete="off">
                 <p style="font-size: 20px;">OTP verified!</p>
                 <label style="color: #B1B1B1;">Enter your mPIN</label>&nbsp;
                 <div id="divOuter">
