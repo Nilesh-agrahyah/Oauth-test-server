@@ -318,7 +318,10 @@ app.post("/honda/primary", (primaryreq, res) => {
       //  data.phoneNo = resData.data.primaryMobileNo
       
         if (resData.data.otpStatus == "False") {
-          return res.status(200).send({status:false,operation: 'verifyOTP'})
+          for(i=0; i<6; i++){
+            return res.status(200).send({status:false,operation: 'verifyOTP', attemptNo: i, otpExpired: false});
+          }
+          return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: true});          
         }
 
         let custId = resData.data.loginInfo.customerId;
