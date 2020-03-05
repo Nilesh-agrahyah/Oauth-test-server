@@ -242,7 +242,7 @@ app.post("/honda/primary", (primaryreq, res) => {
   data.redirectURI = primaryreq.body.redirectURI;
   data.state = primaryreq.body.state;
   // let phoneNo = primaryreq.body.primaryMobileNo;
-  console.log([data.clientId, scope, responseType, redirectURI, data.state]);
+  console.log([data.clientId, data.scope, data.responseType, data.redirectURI, data.state]);
 
 
 
@@ -279,18 +279,11 @@ app.post("/honda/primary", (primaryreq, res) => {
   
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
-      return res.status(403).render("honda", {
-        fail: true,
-        otpSent: false, 
-        number: primaryreq.body.primaryMobileNo,
-        otpVerified: undefined,
-        clientId: data.clientId,
-        scope: scope,
-        redirectURI: redirectURI,
-        responseType: responseType,
-        state: data.state
-      });
+      return res.status(403).send({ status: false});
     }
+    res.send({
+      status: true
+    })
     res.render("honda", {
       fail: false,
       otpSent: true,
