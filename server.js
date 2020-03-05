@@ -320,7 +320,7 @@ app.post("/honda/primary", (primaryreq, res) => {
         if (resData.data.otpStatus == "False" && resData.status.code == 400) {
             return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: false});   
         }
-        if(resData.data.otpStatus == "False" && resData.status.code == 80077)
+        if(resData.data.otpStatus == "False" && resData.status.code == 80077 || resData.status.code == 80077)
         {
           return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: true});          
         }
