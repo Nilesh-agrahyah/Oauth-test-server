@@ -281,7 +281,7 @@ app.post("/honda/primary", (primaryreq, res) => {
   
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
-      return res.status(401).send({ status: false});
+      return res.status(200).send({ status: false});
     }
     res.status(200).send({
       status: true
