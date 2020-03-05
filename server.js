@@ -438,18 +438,19 @@ app.post("/honda/primary", (primaryreq, res) => {
                 console.log(
                   "value of login response after post" + JSON.stringify(body)
                 );
-                res.redirect(
-                  `${response.body}?scope=${data.scope}&client_id=${data.clientId}&redirect_uri=${data.redirectURI}&response_type=${data.responseType}&CustName=${responseS.data.customerDetails.firstname}&CustId=${responseS.data.customerDetails.customerId}&state=${data.state}`
-                );
+                res.send({
+                  status: true,
+                  operation: 'verifyMPIN',
+                  custName: responseS.data.customerDetails.firstname,
+                  custId: responseS.data.customerDetails.customerId,
+                  authURL: `${response.body}?scope=${data.scope}&client_id=${data.clientId}&redirect_uri=${data.redirectURI}&response_type=${data.responseType}&CustName=${responseS.data.customerDetails.firstname}&CustId=${responseS.data.customerDetails.customerId}&state=${data.state}`
+                })
                   for (var member in data) delete data[member]
               });
             } else {
-              res.render("honda", {
-                fail: undefined,
-                otpSent: undefined,
-                number: data.phoneNo,
-                otpVerified: true,
-                mpinVerified: false
+              res.send({
+                status: false,
+                operation: 'verifyMPIN'
               });
             }
           });
