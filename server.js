@@ -20,6 +20,8 @@ var oauthServer = require("./oauth");
 const account = require("./models/account");
 const baseURL = "https://testapi.hondaconnect.in/bos";
 const key = require("./config/key");
+const cors = require('cors');
+
 
 var port = process.env.VCAP_APP_PORT || process.env.PORT || 3000;
 var host = process.env.VCAP_APP_HOST || "0.0.0.0";
@@ -75,7 +77,7 @@ var oauthModels = require("./models/oauth");
 var app_id = "https://oauthserver2.herokuapp.com/:" + port; //Change according to host used
 
 var app = express();
-
+app.use(cors());
 app.set("view engine", "ejs");
 app.enable("trust proxy");
 app.use(express.static('public'));
