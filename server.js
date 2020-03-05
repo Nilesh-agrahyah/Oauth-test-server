@@ -313,7 +313,14 @@ app.post("/honda/primary", (primaryreq, res) => {
         if (error) throw new Error(error);
         console.log("response " + JSON.stringify(response))
         let resData = JSON.parse(response.body);
-        console.log("res data " + resData)
+        console.log("res data " + resData);
+        
+      //  data.phoneNo = resData.data.primaryMobileNo
+      
+        if (optStat == "False") {
+          return res.status(200).send({status:false,operation: 'verifyOTP'})
+        }
+
         let custId = resData.data.loginInfo.customerId;
         let custName = resData.data.loginInfo.firstname;
         let custEmail = resData.data.loginInfo.emailId;
@@ -322,11 +329,7 @@ app.post("/honda/primary", (primaryreq, res) => {
         console.log("cust email from res data: " + custEmail);
         console.log("data" + JSON.stringify(data))
         console.log("Res data: ", resData);
-      //  data.phoneNo = resData.data.primaryMobileNo
-      
-        if (optStat == "False") {
-          return res.status(200).send({status:false,operation: 'verifyOTP'})
-        }
+
         let checkUser = await account.findOne({ email: custEmail });
         if (!checkUser) {
           var options = {
