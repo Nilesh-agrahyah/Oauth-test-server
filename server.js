@@ -20,8 +20,6 @@ var oauthServer = require("./oauth");
 const account = require("./models/account");
 const baseURL = "https://testapi.hondaconnect.in/bos";
 const key = require("./config/key");
-const cors = require('cors');
-
 
 var port = process.env.VCAP_APP_PORT || process.env.PORT || 3000;
 var host = process.env.VCAP_APP_HOST || "0.0.0.0";
@@ -77,7 +75,7 @@ var oauthModels = require("./models/oauth");
 var app_id = "https://oauthserver2.herokuapp.com/:" + port; //Change according to host used
 
 var app = express();
-app.use(cors());
+
 app.set("view engine", "ejs");
 app.enable("trust proxy");
 app.use(express.static('public'));
@@ -239,12 +237,12 @@ let data = new bufferData(undefined, undefined, undefined,undefined,undefined,un
 app.post("/honda/primary", (primaryreq, res) => {
   // console.log(req)
    data.clientId = primaryreq.body.clientId;
-  data.scope = primaryreq.body.scope;
-  data.responseType = primaryreq.body.responseType;
-  data.redirectURI = primaryreq.body.redirectURI;
+  var scope = primaryreq.body.scope;
+  var responseType = primaryreq.body.responseType;
+  var redirectURI = primaryreq.body.redirectURI;
   data.state = primaryreq.body.state;
-  data.phoneNo = primaryreq.body.primaryMobileNo;
-  console.log([data.clientId, data.scope, data.responseType, data.redirectURI, data.state]);
+  let phoneNo = primaryreq.body.primaryMobileNo;
+  console.log([data.clientId, scope, responseType, redirectURI, data.state]);
 
 
 
@@ -281,16 +279,28 @@ app.post("/honda/primary", (primaryreq, res) => {
   
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
-      return res.status(200).send({ status: false, operation: 'verifyNumber'});
+      return res.status(403).render("honda", {
+        fail: true,
+        otpSent: false, 
+        number: primaryreq.body.primaryMobileNo,
+        otpVerified: undefined,
+        clientId: data.clientId,
+        scope: scope,
+        redirectURI: redirectURI,
+        responseType: responseType,
+        state: data.state
+      });
     }
-    res.status(200).send({
-      status: true,
-      operation: 'verifyNumber'
-    })
-
+    res.render("honda", {
+      fail: false,
+      otpSent: true,
+      number: primaryreq.body.primaryMobileNo,
+      otpVerified: undefined
+    });
     app.post("/honda/verifyOtp", (req, res) => {
       console.log("value of req in verify otp : " + req)
       let sentOpt = req.body.otp;
+      let numberInOTP = req.body.number
       var options = {
         method: "POST",
         url: `${baseURL}/external/alexaVerifyOtpPin`,
@@ -302,7 +312,7 @@ app.post("/honda/primary", (primaryreq, res) => {
           key: data.resKey,
           otp: sentOpt,
           emailId: "",
-          primaryMobileNo: data.phoneNo,
+          primaryMobileNo: req.body.number,
           customerId: "",
           customerCategory: ""
         })
@@ -313,26 +323,25 @@ app.post("/honda/primary", (primaryreq, res) => {
         if (error) throw new Error(error);
         console.log("response " + JSON.stringify(response))
         let resData = JSON.parse(response.body);
-        console.log("res data " + JSON.stringify(resData));
-        
-      //  data.phoneNo = resData.data.primaryMobileNo
-      
-        if (resData.data.otpStatus == "False" && resData.status.code == 400) {
-            return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: false});   
-        }
-        if(resData.data.otpStatus == "False" && resData.status.code == 80077 || resData.status.code == 80077)
-        {
-          return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: true});          
-        }
-
+        console.log("res data " + resData)
         let custId = resData.data.loginInfo.customerId;
         let custName = resData.data.loginInfo.firstname;
         let custEmail = resData.data.loginInfo.emailId;
+        let optStat = resData.data.otpStatus;
 
         console.log("cust email from res data: " + custEmail);
         console.log("data" + JSON.stringify(data))
         console.log("Res data: ", resData);
-
+       data.phoneNo = resData.data.primaryMobileNo
+      
+        if (optStat == "False") {
+          return res.render("honda", {
+            fail: false,
+            otpSent: true,
+            number:numberInOTP,
+            otpVerified: false
+          });
+        }
         let checkUser = await account.findOne({ email: custEmail });
         if (!checkUser) {
           var options = {
@@ -353,13 +362,19 @@ app.post("/honda/primary", (primaryreq, res) => {
           });
         }
 
-        console.log("value of number for mpin page " +  data.phoneNo)
-        res.status(200).send({status:true,operation: 'verifyOTP'})
+        console.log("value of number for mpin page " +  numberInOTP)
+        res.render("honda", {
+          fail: undefined,
+          otpSent: undefined,
+          number:numberInOTP,
+          otpVerified: true,
+          mpinVerified: undefined
+        });
 
         app.post("/honda/verifyMpin", (req, res) => {
           let submittedMpin = req.body.mpin;
 
-          console.log("value of number in mpin page " +  data.phoneNo)
+          console.log("value of number in mpin page " +  req.body.number)
           /*var  options = {
             method: "POST",
             url: `${baseURL}/authentication/loginApi`,
@@ -377,7 +392,7 @@ app.post("/honda/primary", (primaryreq, res) => {
             'headers': {
             'mpin': submittedMpin,
             'Content-Type': 'application/json',
-            'primaryMobileNo':  data.phoneNo,
+            'primaryMobileNo':  req.body.number,
             "Authorization": key
             }
             };  
@@ -438,19 +453,18 @@ app.post("/honda/primary", (primaryreq, res) => {
                 console.log(
                   "value of login response after post" + JSON.stringify(body)
                 );
-                res.send({
-                  status: true,
-                  operation: 'verifyMPIN',
-                  custName: responseS.data.customerDetails.firstname,
-                  custId: responseS.data.customerDetails.customerId,
-                  authURL: `${response.body}?scope=${data.scope}&client_id=${data.clientId}&redirect_uri=${data.redirectURI}&response_type=${data.responseType}&CustName=${responseS.data.customerDetails.firstname}&CustId=${responseS.data.customerDetails.customerId}&state=${data.state}`
-                })
+                res.redirect(
+                  `${response.body}?scope=${scope}&client_id=${data.clientId}&redirect_uri=${redirectURI}&response_type=${responseType}&CustName=${responseS.data.customerDetails.firstname}&CustId=${responseS.data.customerDetails.customerId}&state=${data.state}`
+                );
                   for (var member in data) delete data[member]
               });
             } else {
-              res.send({
-                status: false,
-                operation: 'verifyMPIN'
+              res.render("honda", {
+                fail: undefined,
+                otpSent: undefined,
+                number: data.phoneNo,
+                otpVerified: true,
+                mpinVerified: false
               });
             }
           });
