@@ -237,11 +237,11 @@ let data = new bufferData(undefined, undefined, undefined,undefined,undefined,un
 app.post("/honda/primary", (primaryreq, res) => {
   // console.log(req)
    data.clientId = primaryreq.body.clientId;
-  var scope = primaryreq.body.scope;
-  var responseType = primaryreq.body.responseType;
-  var redirectURI = primaryreq.body.redirectURI;
+  data.scope = primaryreq.body.scope;
+  data.responseType = primaryreq.body.responseType;
+  data.redirectURI = primaryreq.body.redirectURI;
   data.state = primaryreq.body.state;
-  let phoneNo = primaryreq.body.primaryMobileNo;
+  // let phoneNo = primaryreq.body.primaryMobileNo;
   console.log([data.clientId, scope, responseType, redirectURI, data.state]);
 
 
