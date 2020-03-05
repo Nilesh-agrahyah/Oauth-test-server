@@ -281,15 +281,10 @@ app.post("/honda/primary", (primaryreq, res) => {
       // setTimeout(res, 2000);
       return res.status(403).send({ status: false});
     }
-    res.send({
+    res.status(200).send({
       status: true
     })
-    res.render("honda", {
-      fail: false,
-      otpSent: true,
-      number: primaryreq.body.primaryMobileNo,
-      otpVerified: undefined
-    });
+
     app.post("/honda/verifyOtp", (req, res) => {
       console.log("value of req in verify otp : " + req)
       let sentOpt = req.body.otp;
