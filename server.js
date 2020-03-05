@@ -317,10 +317,11 @@ app.post("/honda/primary", (primaryreq, res) => {
         
       //  data.phoneNo = resData.data.primaryMobileNo
       
-        if (resData.data.otpStatus == "False") {
-          for(let i=1; i<=5; i++){
-            return res.status(200).send({status:false,operation: 'verifyOTP', attemptNo: i, otpExpired: false});
-          }
+        if (resData.data.otpStatus == "False" && resData.data.status.code == 400) {
+            return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: false});   
+        }
+        if(resData.data.otpStatus == "False" && resData.data.status.code == 80077)
+        {
           return res.status(200).send({status:false,operation: 'verifyOTP', otpExpired: true});          
         }
 
