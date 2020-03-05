@@ -359,7 +359,7 @@ app.post("/honda/primary", (primaryreq, res) => {
         app.post("/honda/verifyMpin", (req, res) => {
           let submittedMpin = req.body.mpin;
 
-          console.log("value of number in mpin page " +  req.body.number)
+          console.log("value of number in mpin page " +  data.phoneNo)
           /*var  options = {
             method: "POST",
             url: `${baseURL}/authentication/loginApi`,
@@ -377,7 +377,7 @@ app.post("/honda/primary", (primaryreq, res) => {
             'headers': {
             'mpin': submittedMpin,
             'Content-Type': 'application/json',
-            'primaryMobileNo':  req.body.number,
+            'primaryMobileNo':  data.phoneNo,
             "Authorization": key
             }
             };  
