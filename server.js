@@ -281,10 +281,11 @@ app.post("/honda/primary", (primaryreq, res) => {
   
     if (responseS.data.mpinStatus == false) {
       // setTimeout(res, 2000);
-      return res.status(200).send({ status: false});
+      return res.status(200).send({ status: false, operation: 'verifyNumber'});
     }
     res.status(200).send({
-      status: true
+      status: true,
+      operation: 'verifyNumber'
     })
 
     app.post("/honda/verifyOtp", (req, res) => {
@@ -321,15 +322,10 @@ app.post("/honda/primary", (primaryreq, res) => {
         console.log("cust email from res data: " + custEmail);
         console.log("data" + JSON.stringify(data))
         console.log("Res data: ", resData);
-       data.phoneNo = resData.data.primaryMobileNo
+      //  data.phoneNo = resData.data.primaryMobileNo
       
         if (optStat == "False") {
-          return res.render("honda", {
-            fail: false,
-            otpSent: true,
-            number:data.phoneNo,
-            otpVerified: false
-          });
+          return res.status(200).send({status:false,operation: 'verifyOTP'})
         }
         let checkUser = await account.findOne({ email: custEmail });
         if (!checkUser) {
@@ -352,13 +348,7 @@ app.post("/honda/primary", (primaryreq, res) => {
         }
 
         console.log("value of number for mpin page " +  data.phoneNo)
-        res.render("honda", {
-          fail: undefined,
-          otpSent: undefined,
-          number:data.phoneNo,
-          otpVerified: true,
-          mpinVerified: undefined
-        });
+        res.status(200).send({status:true,operation: 'verifyOTP'})
 
         app.post("/honda/verifyMpin", (req, res) => {
           let submittedMpin = req.body.mpin;
