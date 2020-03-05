@@ -313,18 +313,17 @@ app.post("/honda/primary", (primaryreq, res) => {
         if (error) throw new Error(error);
         console.log("response " + JSON.stringify(response))
         let resData = JSON.parse(response.body);
-        console.log("res data " + resData);
+        console.log("res data " + JSON.stringify(resData));
         
       //  data.phoneNo = resData.data.primaryMobileNo
       
-        if (optStat == "False") {
+        if (resData.data.otpStatus == "False") {
           return res.status(200).send({status:false,operation: 'verifyOTP'})
         }
 
         let custId = resData.data.loginInfo.customerId;
         let custName = resData.data.loginInfo.firstname;
         let custEmail = resData.data.loginInfo.emailId;
-        let optStat = resData.data.otpStatus;
 
         console.log("cust email from res data: " + custEmail);
         console.log("data" + JSON.stringify(data))
